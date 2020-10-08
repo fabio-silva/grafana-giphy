@@ -1,23 +1,39 @@
 import React, { useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
-import { SimpleOptions } from 'types';
+import { SimpleOptions, GiphyApiImageData } from 'types';
+import { GiphyImage } from 'GiphyImage';
 import { css, cx } from 'emotion';
 import { stylesFactory, useTheme } from '@grafana/ui';
 
+const API_KEY = 'F6mcCmi997bP1EiScOtUo1OvuP5qKEau';
 interface Props extends PanelProps<SimpleOptions> {}
+interface ImageData {
+  url: string;
+  id: string;
+}
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   const theme = useTheme();
   const styles = getStyles();
   const inputEl = useRef<HTMLInputElement>(null);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [images, setImages] = useState<ImageData[]>([]);
   const { nrImages } = options;
   let searchValue = '';
 
   const search = async () => {
     console.log(searchValue);
     console.log(nrImages);
-    // const apiResp = await fetch()
+    try {
+      const apiResp = await fetch(
+        `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchValue}&limit=${nrImages}`
+        );
+      const apiData: GiphyApiImageData = await apiResp.json();
+      const stateData = apiData.data.map(d => ({ id: d.id, url: d.images.fixed_height_small.url }))
+      setImages(stateData);
+    } catch (e) {
+
+    }
   }
 
   const textChanged = () => {
@@ -44,17 +60,14 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       <input ref={inputEl} type="text" onChange={textChanged}></input>
       <button disabled={buttonDisabled} onClick={search}>Search</button>
 
-      <div className={styles.textBox}>
-        {options.showSeriesCount && (
-          <div
-            className={css`
-              font-size: ${theme.typography.size[options.seriesCountSize]};
-            `}
-          >
-            Number of series: {data.series.length}
-          </div>
-        )}
-        <div>Text option value: {options.text}</div>
+      <div className={css`
+        display: flex;
+        flex-wrap: wrap;
+        overflow-y: scroll;
+      `}>
+        {
+          images.map(({ id, url }) => <div className={cx(styles.giphyImg)} key={id} style={{height: "150px"}}><GiphyImage url={url} /></div>)
+        }
       </div>
     </div>
   );
@@ -76,5 +89,11 @@ const getStyles = stylesFactory(() => {
       left: 0;
       padding: 10px;
     `,
+    giphyImg: css`
+      margin-bottom: 10px;
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    `
   };
 });

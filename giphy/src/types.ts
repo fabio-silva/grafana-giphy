@@ -6,3 +6,23 @@ export interface SimpleOptions {
   seriesCountSize: SeriesSize;
   nrImages: number;
 }
+
+export interface ImageProps {
+  url: string;
+}
+
+interface GiphyImg {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface GiphyApiImageData {
+  data: {
+    id: string;
+    images: {
+      original: GiphyImg;
+      fixed_height_small: GiphyImg;
+    }
+  }[]
+}
