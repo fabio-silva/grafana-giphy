@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import { css, cx } from 'emotion';
@@ -9,19 +9,28 @@ interface Props extends PanelProps<SimpleOptions> {}
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   const theme = useTheme();
   const styles = getStyles();
-  let color: string;
-  
-  switch (options.color) {
-    case 'red':
-      color = theme.palette.redBase;
-      break;
-    case 'green':
-      color = theme.palette.greenBase;
-      break;
-    case 'blue':
-      color = theme.palette.blue95;
-      break;
+  const inputEl = useRef<HTMLInputElement>(null);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const { nrImages } = options;
+  let searchValue = '';
+
+  const search = async () => {
+    console.log(searchValue);
+    console.log(nrImages);
+    // const apiResp = await fetch()
   }
+
+  const textChanged = () => {
+    if (inputEl && inputEl.current) {
+      searchValue = inputEl.current.value;
+    }
+    const isButtonDisabled = !searchValue.length;
+
+    if (isButtonDisabled !== buttonDisabled) {
+      setButtonDisabled(isButtonDisabled);
+    }
+  }
+
   return (
     <div
       className={cx(
@@ -32,18 +41,8 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
         `
       )}
     >
-      <svg
-        className={styles.svg}
-        width={width}
-        height={height}
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        viewBox={`-${width / 2} -${height / 2} ${width} ${height}`}
-      >
-        <g>
-          <circle style={{ fill: color }} r={100} />
-        </g>
-      </svg>
+      <input ref={inputEl} type="text" onChange={textChanged}></input>
+      <button disabled={buttonDisabled} onClick={search}>Search</button>
 
       <div className={styles.textBox}>
         {options.showSeriesCount && (
