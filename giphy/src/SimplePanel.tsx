@@ -13,17 +13,24 @@ interface ImageData {
 }
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
-  const theme = useTheme();
   const styles = getStyles();
   const inputEl = useRef<HTMLInputElement>(null);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [images, setImages] = useState<ImageData[]>([]);
   const { nrImages } = options;
-  let searchValue = '';
+
+  const getSearchValue = (): string => {
+    let searchValue = '';
+
+    if (inputEl && inputEl.current) {
+      searchValue = inputEl.current.value;
+    }
+
+    return searchValue;
+  }
 
   const search = async () => {
-    console.log(searchValue);
-    console.log(nrImages);
+    const searchValue = getSearchValue();
     try {
       const apiResp = await fetch(
         `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchValue}&limit=${nrImages}`
@@ -37,9 +44,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   }
 
   const textChanged = () => {
-    if (inputEl && inputEl.current) {
-      searchValue = inputEl.current.value;
-    }
+    const searchValue = getSearchValue();
     const isButtonDisabled = !searchValue.length;
 
     if (isButtonDisabled !== buttonDisabled) {
