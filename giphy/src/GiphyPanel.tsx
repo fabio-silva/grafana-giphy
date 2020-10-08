@@ -12,7 +12,7 @@ interface ImageData {
   id: string;
 }
 
-export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
+export const GiphyPanel: React.FC<Props> = ({ options, data, width, height }) => {
   const styles = getStyles();
   const inputEl = useRef<HTMLInputElement>(null);
   const [buttonDisabled, setButtonDisabled] = useState(true);
