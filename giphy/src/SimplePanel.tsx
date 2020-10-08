@@ -73,7 +73,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       )}
     >
       <input ref={inputEl} type="text" onChange={textChanged}></input>
-      <button disabled={buttonDisabled} onClick={search}>Search</button>
+      <button className={cx(styles.button)} disabled={buttonDisabled} onClick={search}>Search</button>
 
       <div className={css`
         display: flex;
@@ -91,11 +91,6 @@ const getStyles = stylesFactory(() => {
     wrapper: css`
       position: relative;
     `,
-    svg: css`
-      position: absolute;
-      top: 0;
-      left: 0;
-    `,
     textBox: css`
       position: absolute;
       bottom: 0;
@@ -106,6 +101,13 @@ const getStyles = stylesFactory(() => {
       margin-bottom: 10px;
       &:not(:last-child) {
         margin-right: 10px;
+      }
+    `,
+    button: css`
+      color: black;
+      &:disabled {
+        color: gray;
+        pointer-events:none;
       }
     `
   };
