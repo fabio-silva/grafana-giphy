@@ -16,6 +16,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   const styles = getStyles();
   const inputEl = useRef<HTMLInputElement>(null);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  // Starting images as null to avoid a "no results found" in the very beginning
   const [images, setImages] = useState<ImageData[] | null>(null);
   const { nrImages } = options;
 
@@ -54,6 +55,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
 
   let imageEl: JSX.Element[] | JSX.Element = <></>;
 
+  // At this point, we can check if we should show a "no results found"
   if (images) {
     if (images.length) {
       imageEl = images.map(({ id, url }) => <div

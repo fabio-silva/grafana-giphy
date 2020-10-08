@@ -17,6 +17,9 @@ interface GiphyImg {
   height: number;
 }
 
+/**
+ * Just adding these properties for now
+ */
 export interface GiphyApiImageData {
   data: {
     id: string;
