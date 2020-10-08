@@ -16,7 +16,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   const styles = getStyles();
   const inputEl = useRef<HTMLInputElement>(null);
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [images, setImages] = useState<ImageData[]>([]);
+  const [images, setImages] = useState<ImageData[] | null>(null);
   const { nrImages } = options;
 
   const getSearchValue = (): string => {
@@ -39,7 +39,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       const stateData = apiData.data.map(d => ({ id: d.id, url: d.images.fixed_height_small.url }))
       setImages(stateData);
     } catch (e) {
-
+      setImages(null);
     }
   }
 
@@ -49,6 +49,16 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
 
     if (isButtonDisabled !== buttonDisabled) {
       setButtonDisabled(isButtonDisabled);
+    }
+  }
+
+  let imageEl;
+
+  if (images) {
+    if (images.length) {
+      imageEl = images.map(({ id, url }) => <div className={cx(styles.giphyImg)} key={id} style={{height: "150px"}}><GiphyImage url={url} /></div>)
+    } else {
+      imageEl = <p>No result found</p>;
     }
   }
 
@@ -70,9 +80,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
         flex-wrap: wrap;
         overflow-y: scroll;
       `}>
-        {
-          images.map(({ id, url }) => <div className={cx(styles.giphyImg)} key={id} style={{height: "150px"}}><GiphyImage url={url} /></div>)
-        }
+        {imageEl}
       </div>
     </div>
   );
