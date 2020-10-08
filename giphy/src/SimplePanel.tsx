@@ -3,7 +3,7 @@ import { PanelProps } from '@grafana/data';
 import { SimpleOptions, GiphyApiImageData } from 'types';
 import { GiphyImage } from 'GiphyImage';
 import { css, cx } from 'emotion';
-import { stylesFactory, useTheme } from '@grafana/ui';
+import { stylesFactory } from '@grafana/ui';
 
 const API_KEY = 'F6mcCmi997bP1EiScOtUo1OvuP5qKEau';
 interface Props extends PanelProps<SimpleOptions> {}
@@ -72,14 +72,12 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
         `
       )}
     >
-      <input ref={inputEl} type="text" onChange={textChanged}></input>
-      <button className={cx(styles.button)} disabled={buttonDisabled} onClick={search}>Search</button>
+      <div className={cx(styles.inputWrapper)}>
+        <input ref={inputEl} type="text" onChange={textChanged}></input>
+        <button className={cx(styles.button)} disabled={buttonDisabled} onClick={search}>Search</button>
+      </div>
 
-      <div className={css`
-        display: flex;
-        flex-wrap: wrap;
-        overflow-y: scroll;
-      `}>
+      <div className={cx(styles.imagesContainer)}>
         {imageEl}
       </div>
     </div>
@@ -109,6 +107,16 @@ const getStyles = stylesFactory(() => {
         color: gray;
         pointer-events:none;
       }
+    `,
+    inputWrapper: css`
+      height: 25px;
+      margin-bottom: 10px
+    `,
+    imagesContainer: css`
+      display: flex;
+      flex-wrap: wrap;
+      overflow-y: scroll;
+      max-height: calc(100% - 10px - 25px);
     `
   };
 });
