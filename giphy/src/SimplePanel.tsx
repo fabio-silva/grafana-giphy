@@ -52,7 +52,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     }
   }
 
-  let imageEl;
+  let imageEl: JSX.Element[] | JSX.Element = <></>;
 
   if (images) {
     if (images.length) {
