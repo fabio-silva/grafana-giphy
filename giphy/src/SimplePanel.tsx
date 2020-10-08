@@ -6,7 +6,7 @@ import { css, cx } from 'emotion';
 import { stylesFactory } from '@grafana/ui';
 
 const API_KEY = 'F6mcCmi997bP1EiScOtUo1OvuP5qKEau';
-interface Props extends PanelProps<SimpleOptions> {}
+interface Props extends PanelProps<SimpleOptions> { }
 interface ImageData {
   url: string;
   id: string;
@@ -34,7 +34,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     try {
       const apiResp = await fetch(
         `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchValue}&limit=${nrImages}`
-        );
+      );
       const apiData: GiphyApiImageData = await apiResp.json();
       const stateData = apiData.data.map(d => ({ id: d.id, url: d.images.fixed_height_small.url }))
       setImages(stateData);
@@ -56,7 +56,13 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
 
   if (images) {
     if (images.length) {
-      imageEl = images.map(({ id, url }) => <div className={cx(styles.giphyImg)} key={id} style={{height: "150px"}}><GiphyImage url={url} /></div>)
+      imageEl = images.map(({ id, url }) => <div
+        className={cx(styles.giphyImg)}
+        key={id}
+      >
+        <GiphyImage url={url} />
+      </div>
+      )
     } else {
       imageEl = <p>No result found</p>;
     }
@@ -96,6 +102,7 @@ const getStyles = stylesFactory(() => {
       padding: 10px;
     `,
     giphyImg: css`
+      height: 150px;
       margin-bottom: 10px;
       &:not(:last-child) {
         margin-right: 10px;
