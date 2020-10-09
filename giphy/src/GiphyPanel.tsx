@@ -21,12 +21,12 @@ export const GiphyPanel: React.FC<Props> = ({ options, data, width, height }) =>
         `http://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchValue}&limit=${nrImages}`
       );
       const apiData: GiphyApiImageData = await apiResp.json();
-      const stateData = apiData.data.map(d => ({ id: d.id, url: d.images.fixed_height_small.url }))
+      const stateData = apiData.data.map(d => ({ id: d.id, url: d.images.fixed_height_small.url }));
       setImages(stateData);
     } catch (e) {
       setImages(null);
     }
-  }
+  };
 
   return (
     <div
@@ -42,7 +42,7 @@ export const GiphyPanel: React.FC<Props> = ({ options, data, width, height }) =>
         <SearchInput onSearch={search} />
       </div>
       <div className={cx(styles.imagesContainer)}>
-        <GiphyImageContainer images={images}/>
+        <GiphyImageContainer images={images} />
       </div>
     </div>
   );
@@ -55,13 +55,13 @@ const getStyles = stylesFactory(() => {
     `,
     inputWrapper: css`
       height: 25px;
-      margin-bottom: 10px
+      margin-bottom: 10px;
     `,
     imagesContainer: css`
       display: flex;
       flex-wrap: wrap;
       overflow-y: scroll;
       max-height: calc(100% - 10px - 25px);
-    `
+    `,
   };
 });

@@ -8,11 +8,10 @@ export const GiphyImage: React.FC<ImageProps> = ({ url = '' }) => (
    * can avoid different heights in the future.
    */
   <img
-      className={css`
-          object-fit: contain;
-          height: 100%;
-      `}
-      src={`${url}`}
-  >
-  </img>
+    className={css`
+      object-fit: contain;
+      height: 100%;
+    `}
+    src={`${url}`}
+  ></img>
 );

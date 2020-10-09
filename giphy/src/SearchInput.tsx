@@ -7,9 +7,9 @@ const styles = stylesFactory(() => ({
     color: black;
     &:disabled {
       color: gray;
-      pointer-events:none;
+      pointer-events: none;
     }
-	`
+  `,
 }))();
 
 interface SearchProps {
@@ -22,25 +22,29 @@ export const SearchInput: React.FC<SearchProps> = ({ onSearch }) => {
   const [searchValue, setValue] = useState('');
 
   const textChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { target: { value } } = e;
+    const {
+      target: { value },
+    } = e;
     setValue(value);
     const isButtonDisabled = !value.length;
 
     if (isButtonDisabled !== buttonDisabled) {
       setButtonDisabled(isButtonDisabled);
     }
-  }
+  };
 
   const search = () => {
     if (searchValue) {
       onSearch(searchValue);
     }
-  }
-  
+  };
+
   return (
     <>
       <input ref={inputEl} type="text" value={searchValue} onChange={textChanged}></input>
-      <button className={cx(styles.button)} disabled={buttonDisabled} onClick={search}>Search</button>
+      <button className={cx(styles.button)} disabled={buttonDisabled} onClick={search}>
+        Search
+      </button>
     </>
   );
-  };
+};

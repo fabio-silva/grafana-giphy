@@ -21,13 +21,13 @@ interface GiphyImg {
  * Just adding these properties for now
  */
 export interface GiphyApiImageData {
-  data: {
+  data: Array<{
     id: string;
     images: {
       original: GiphyImg;
       fixed_height_small: GiphyImg;
-    }
-  }[]
+    };
+  }>;
 }
 
 export interface ImageData {
