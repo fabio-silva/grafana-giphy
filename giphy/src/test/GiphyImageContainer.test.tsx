@@ -23,6 +23,5 @@ describe('GiphyImageContainer', () => {
     }];
     const container = shallow(<GiphyImageContainer images={images}/>);
     expect(container.children().length).toBe(2);
-    expect(container).toMatchSnapshot();
   });
 });
