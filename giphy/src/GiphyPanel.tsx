@@ -1,16 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { PanelProps } from '@grafana/data';
-import { SimpleOptions, GiphyApiImageData } from 'types';
-import { GiphyImage } from 'GiphyImage';
+import { SimpleOptions, GiphyApiImageData, ImageData } from 'types';
 import { css, cx } from 'emotion';
 import { stylesFactory } from '@grafana/ui';
+import { GiphyImageContainer } from 'GiphyImageContainer';
 
 const API_KEY = 'F6mcCmi997bP1EiScOtUo1OvuP5qKEau';
-interface Props extends PanelProps<SimpleOptions> { }
-interface ImageData {
-  url: string;
-  id: string;
-}
+interface Props extends PanelProps<SimpleOptions> {}
 
 export const GiphyPanel: React.FC<Props> = ({ options, data, width, height }) => {
   const styles = getStyles();
@@ -53,23 +49,6 @@ export const GiphyPanel: React.FC<Props> = ({ options, data, width, height }) =>
     }
   }
 
-  let imageEl: JSX.Element[] | JSX.Element = <></>;
-
-  // At this point, we can check if we should show a "no results found"
-  if (images) {
-    if (images.length) {
-      imageEl = images.map(({ id, url }) => <div
-        className={cx(styles.giphyImg)}
-        key={id}
-      >
-        <GiphyImage url={url} />
-      </div>
-      )
-    } else {
-      imageEl = <p>No result found</p>;
-    }
-  }
-
   return (
     <div
       className={cx(
@@ -84,9 +63,8 @@ export const GiphyPanel: React.FC<Props> = ({ options, data, width, height }) =>
         <input ref={inputEl} type="text" onChange={textChanged}></input>
         <button className={cx(styles.button)} disabled={buttonDisabled} onClick={search}>Search</button>
       </div>
-
       <div className={cx(styles.imagesContainer)}>
-        {imageEl}
+        <GiphyImageContainer images={images}/>
       </div>
     </div>
   );
@@ -103,13 +81,6 @@ const getStyles = stylesFactory(() => {
       left: 0;
       padding: 10px;
     `,
-    giphyImg: css`
-      height: 150px;
-      margin-bottom: 10px;
-      &:not(:last-child) {
-        margin-right: 10px;
-      }
-    `,
     button: css`
       color: black;
       &:disabled {
@@ -120,6 +91,10 @@ const getStyles = stylesFactory(() => {
     inputWrapper: css`
       height: 25px;
       margin-bottom: 10px
+    `,
+    giphyContainer: css`
+      overflow-y: scroll;
+      max-height: calc(100% - 10px - 25px);
     `,
     imagesContainer: css`
       display: flex;
