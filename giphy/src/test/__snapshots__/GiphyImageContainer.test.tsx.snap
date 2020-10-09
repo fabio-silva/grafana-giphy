@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GiphyImageContainer should one GiphyImage per image passed 1`] = `
+<Fragment>
+  <div
+    className="css-1mzojan"
+    key="1"
+  >
+    <Component
+      url="url_1"
+    />
+  </div>
+  <div
+    className="css-1mzojan"
+    key="2"
+  >
+    <Component
+      url="url_2"
+    />
+  </div>
+</Fragment>
+`;
