@@ -26,15 +26,20 @@ npm watch
 npm build
 ```
 
-5. Go to the root and run Docker
+5. Test
+```BASH
+npm test
+```
+
+6. Go to the root and run Docker
 ```BASH
 cd ..
 docker-compose up
 ```
 
-6. Open your browser on `localhost:3000`
+7. Open your browser on `localhost:3000`
 
-7. Use "admin"/"admin" credentials
+8. Use "admin"/"admin" credentials
 
 ## Learn more
 - [Build a panel plugin tutorial](https://grafana.com/tutorials/build-a-panel-plugin)
